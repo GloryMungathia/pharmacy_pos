@@ -1,0 +1,18 @@
+from sqlalchemy import Column, Integer, Numeric, ForeignKey
+from sqlalchemy.orm import relationship
+
+from database import Base
+
+
+class SaleItem(Base):
+    __tablename__ = "sale_items"
+
+    id = Column(Integer, primary_key=True, index=True)
+    sale_id = Column(Integer, ForeignKey("sales.id"), nullable=False)
+    product_id = Column(Integer, ForeignKey("products.id"), nullable=False)
+    quantity_sold = Column(Integer, nullable=False)
+    unit_price_at_sale = Column(Numeric(10, 2), nullable=False)
+    sub_total = Column(Numeric(10, 2), nullable=False)
+
+    sale = relationship("Sale", back_populates="sale_items")
+    product = relationship("Product", back_populates="sale_items")
